@@ -1,0 +1,1 @@
+{"mappings":"AAAA;;;;;AAIA;;;;AAGA","sources":["styles.scss"],"sourcesContent":["* {\n  margin: 0;\n  padding: 0;\n}\ncanvas {\n  display: block;\n}\n#container {\n  position: relative;\n  width: 100%;\n  height: 100vh;\n  background-color: rgb(234, 234, 234);\n}\n"],"names":[],"version":3,"file":"index.b8d1660c.css.map","sourceRoot":"/__parcel_source_root/"}

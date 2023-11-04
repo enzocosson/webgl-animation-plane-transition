@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+#container {
+  background-color: #eaeaea;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+/*# sourceMappingURL=index.b8d1660c.css.map */
