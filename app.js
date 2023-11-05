@@ -1,9 +1,10 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import fragment from "./shaders/fragment.glsl";
-import vertex from "./shaders/vertex.glsl";
+import fragment from "./shaders-corners/fragment.glsl";
+import vertex from "./shaders-corners/vertex.glsl";
 import testTexture from "./images/texture.jpg";
 import * as dat from "dat.gui";
+import gsap from "gsap";
 
 export default class App {
   constructor(options) {
@@ -63,9 +64,10 @@ export default class App {
       // wireframe: true,
       uniforms: {
         time: { value: 1.0 },
-        uProgress: { value: 1.0 },
+        uProgress: { value: 0.0 },
         uTexture: { value: new THREE.TextureLoader().load(testTexture) },
         uTextureSize: { value: new THREE.Vector2(100, 100) },
+        uCorners: { value: new THREE.Vector4(0, 0, 0, 0) },
         uResolution: { value: new THREE.Vector2(this.width, this.height) },
         uQuadSize: { value: new THREE.Vector2(300, 300) },
       },
@@ -74,6 +76,37 @@ export default class App {
       fragmentShader: fragment,
     });
 
+    this.tl = gsap
+      .timeline()
+      .to(this.material.uniforms.uCorners.value, {
+        x: 1,
+        duration: 1,
+      })
+      .to(
+        this.material.uniforms.uCorners.value,
+        {
+          y: 1,
+          duration: 1,
+        },
+        0.1
+      )
+      .to(
+        this.material.uniforms.uCorners.value,
+        {
+          z: 1,
+          duration: 1,
+        },
+        0.2
+      )
+      .to(
+        this.material.uniforms.uCorners.value,
+        {
+          w: 1,
+          duration: 1,
+        },
+        0.3
+      );
+
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.scene.add(this.mesh);
   }
@@ -81,12 +114,10 @@ export default class App {
   render() {
     this.time += 0.05;
     this.material.uniforms.time.value = this.time;
-    this.material.uniforms.uProgress.value = this.settings.progress;
+    // this.material.uniforms.uProgress.value = this.settings.progress;
+    this.tl.progress(this.settings.progress);
     this.mesh.rotation.x = this.time / 1000000;
     this.mesh.rotation.y = this.time / 1000000;
-
-    this.mesh.position.x = 300;
-    this.mesh.rotation.z = 0.5;
 
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.render.bind(this));
